@@ -26,7 +26,7 @@ books = [
 ]
 @app.route('/', methods = ['GET'])
 def test():
-    return jsonify({'message': 'It works!'})
+    return jsonify({'message': 'Yaaaas!'})
 @app.route('/bks',methods = ['GET'])
 def returnAll(): 
     return jsonify({'books': books})
@@ -36,6 +36,13 @@ def returnOne(id):
     bks = [book for book in books if book['id'] == id]
     return jsonify({'book':bks[0]})
 
+@app.route('/bks/<string:word>',methods = ['GET'])
+def returnOnes(word):
+    bks = [book for book in books if word in book['name']]
+    output=[]
+    output.append(bks)
+    return jsonify({'book':output})
+
 @app.route('/bks/<int:id>', methods =['PUT'])
 def editOne(id):
     bks = [book for book in books if book['id']  == id]
@@ -44,7 +51,7 @@ def editOne(id):
 
 @app.route('/bks', methods = ['POST'])
 def addOne():
-    book = {'id':request.json['id'],'name': request.json['name']}
+    book = {'id':request.json['id'],'chapter': request.json['chapter'],'name': request.json['name']}
     books.append(book)
     return jsonify({'books':books})
 
